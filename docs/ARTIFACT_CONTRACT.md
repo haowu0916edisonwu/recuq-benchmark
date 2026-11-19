@@ -33,7 +33,7 @@ Each row uses schema `uq_prediction_v1`:
 | `schema_version` | yes | `uq_prediction_v1` |
 | `record_id` | yes | joins to exactly one base row |
 | `method` | yes | canonical implementation identifier |
-| `method_family` | yes | probability/calibration/decomposition/sensitivity/sampling |
+| `method_family` | yes | family identifier from the published UQ schema, including appendix diagnostics |
 | `uncertainty_score` | yes | finite scalar; larger means less reliable |
 | `confidence_score` | no | optional confidence counterpart |
 | `source_scores` | no | optional finite user/item and diagnostic scores |

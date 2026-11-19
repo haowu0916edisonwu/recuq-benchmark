@@ -71,7 +71,7 @@ def eligible(row: dict[str, Any]) -> bool:
 def write_csv(path: Path, rows: list[dict[str, Any]]) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     with path.open("w", newline="", encoding="utf-8") as handle:
-        writer = csv.DictWriter(handle, fieldnames=list(rows[0]))
+        writer = csv.DictWriter(handle, fieldnames=list(rows[0]), lineterminator="\n")
         writer.writeheader()
         writer.writerows(rows)
 
@@ -127,17 +127,26 @@ def normalize_eval(rows: list[dict[str, str]]) -> list[dict[str, Any]]:
 def condition_table(
     rows: list[dict[str, Any]], overall: list[dict[str, Any]], scenario: str,
 ) -> list[dict[str, Any]]:
-    selected = [row for row in rows if row["scenario"] == scenario]
-    datasets = ["mind_20", "amazon_books", "amazon_movies", "yelp"]
+    groups: dict[str, dict[str, dict[str, Any]]] = {
+        dataset: {} for dataset in ("mind_20", "amazon_books", "amazon_movies", "yelp", "overall")
+    }
+    for row in rows:
+        if row["scenario"] == scenario:
+            groups[row["dataset"]][row["release_method"]] = row
+    for row in overall:
+        if row["scenario"] == scenario:
+            groups["overall"][row["release_method"]] = row
+
     output = []
-    for dataset in datasets:
-        matches = {row["release_method"]: row for row in selected if row["dataset"] == dataset}
-        row: dict[str, Any] = {"dataset": dataset}
-        for method in METHOD_ORDER:
-            row[method] = matches[method]["error_auroc"]
+    for dataset, matches in groups.items():
+        row = {"dataset": dataset}
+        if scenario == "s4_longtail":
+            counts = {method["n"] for method in matches.values()}
+            if len(counts) != 1:
+                raise ValueError(f"Expected one shared tail-target population for {dataset}")
+            (row["n"],) = counts
+        row.update({method: matches[method]["error_auroc"] for method in METHOD_ORDER})
         output.append(row)
-    matches = {row["release_method"]: row for row in overall if row["scenario"] == scenario}
-    output.append({"dataset": "overall", **{method: matches[method]["error_auroc"] for method in METHOD_ORDER}})
     return output
 
 

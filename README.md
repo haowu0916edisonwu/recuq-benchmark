@@ -6,7 +6,7 @@ Hao Wu, Sipeng Chen, Weikai Li, Tianyi Chen, Qiancheng Yang, Hang Zhou, Yizhou S
 
 RecUQ compares uncertainty monitors on the **same issued LLM ranking**. Each monitor scores a frozen 20-candidate ranking against two objectives: detecting when the relevant item falls outside the top 10, and measuring whether the monitor responds more strongly to the user-history or item-content control with the larger NDCG@10 difference.
 
-The fixed-ranking protocol exposes changes in monitor ordering across backbones. Top10Mass achieves the strongest Llama Error@10 detection in Warm-start, Sparse-history, and Item-text robustness. Perturbation Rank Instability and simple ranking distances show stronger agreement with the clipped paired-control labels than the scalar monitors.
+The fixed-ranking protocol exposes changes in monitor ordering across backbones. Top10Mass has the highest pooled Llama Error-AUROC in all four conditions, with a smaller lead on popularity-tail targets. Perturbation Rank Instability and simple ranking distances show stronger agreement with the clipped paired-control labels than the scalar monitors.
 
 [![Benchmark pipeline showing the fixed-ranking protocol and its two evaluation tasks](figures/reference/fig_benchmark_pipeline.png)](figures/reference/fig_benchmark_pipeline.pdf)
 
@@ -22,7 +22,7 @@ make validate
 make reproduce
 ```
 
-The release includes the fixed rankings and UQ scores needed for evaluation. Reproduction runs locally without a GPU, model weights, or source-dataset downloads.
+The release includes the fixed rankings and UQ scores needed for evaluation. Reproduction runs locally without a GPU, model weights, or source-dataset downloads. To smoke-test ranking generation with synthetic records, run `python scripts/generate_fixed_rankings.py --dry_run`.
 
 | Command | Result |
 | --- | --- |

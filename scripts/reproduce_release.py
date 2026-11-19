@@ -61,6 +61,19 @@ def compare_csv(
                 raise AssertionError(f"Mismatch {key} {metric}: {left} vs {right} ({actual})")
 
 
+def compare_paper_tables(actual_dir: Path, reference_dir: Path) -> None:
+    key_columns = {"backbone", "dataset", "evaluation_condition", "method", "signal"}
+    for reference in sorted(reference_dir.glob("table*.csv")):
+        actual = actual_dir / reference.name
+        columns = tuple(read_csv(reference)[0])
+        actual_rows = read_csv(actual)
+        if not actual_rows or tuple(actual_rows[0]) != columns:
+            raise AssertionError(f"Unexpected table columns in {actual}")
+        keys = tuple(column for column in columns if column in key_columns)
+        metrics = tuple(column for column in columns if column not in key_columns)
+        compare_csv(actual, reference, keys, metrics)
+
+
 def scalar(backbone: str, output: Path, bootstrap: int) -> None:
     base = (
         "llama_fixed_rankings.jsonl.gz" if backbone == "llama"
@@ -212,6 +225,7 @@ def main() -> None:
         "--paired_clipped", str(output / "paired_control/gap_0.00/control_response_metrics.csv"),
         "--paired_extended", str(output / "camera_ready/paired_control/llama/paired_control_extended.csv"),
     ])
+    compare_paper_tables(output / "paper_tables", ROOT / "artifacts/reference_results/paper_tables")
     print(f"Reproduction passed; outputs are in {output}")
 
 

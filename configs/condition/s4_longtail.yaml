@@ -3,4 +3,5 @@ target_source: "U_item"
 tail_percentile: 25
 head_percentile: 75
 
-include_buckets: ["tail"]
+# Keep the generated ranking population. The scalar evaluator selects tail targets.
+include_buckets: ["tail", "mid", "head"]

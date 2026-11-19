@@ -57,15 +57,19 @@ def main() -> None:
     set_global_seed(int(eval_cfg.get("seed", 42)))
     eval_k = int(eval_cfg.get("k", 10))
     subset_size = args.subset_size if args.subset_size is not None else int(eval_cfg.get("subset_size", 50))
-    configured_manifest = config.get("subset_manifest")
-    subset_manifest_path = args.subset_manifest or configured_manifest
-    if configured_manifest and args.subset_manifest is None and not Path(str(configured_manifest)).is_absolute():
-        subset_manifest_path = str((Path(args.config).resolve().parent / str(configured_manifest)).resolve())
+    subset_manifest_path = args.subset_manifest
+    if subset_manifest_path is None and not args.dry_run and config.get("subset_manifest"):
+        subset_manifest_path = str((Path(args.config).resolve().parent / config["subset_manifest"]).resolve())
     subset_manifest = _load_subset_manifest(subset_manifest_path) if subset_manifest_path else None
     manifest_counts = {dataset: len(instance_ids) for dataset, instance_ids in subset_manifest.items()} if subset_manifest else {}
-    output_dir = Path(args.output_dir or config.get("results_dir", "results/fixed_rankings"))
+    if args.dry_run:
+        default_output = Path("outputs/dry_run") / Path(args.config).stem
+        output_dir = Path(args.output_dir or default_output)
+        cache = CacheManager(output_dir / "cache")
+    else:
+        output_dir = Path(args.output_dir or config.get("results_dir", "results/fixed_rankings"))
+        cache = CacheManager(config.get("cache_dir", "cache/fixed_rankings"))
     output_dir.mkdir(parents=True, exist_ok=True)
-    cache = CacheManager(config.get("cache_dir", "cache/fixed_rankings"))
     recommender = DryRunRecommender() if args.dry_run else CausalLMInstructRecommender(config["model"])
     model_name = "dry_run" if args.dry_run else str(config["model"]["model_name"])
     backbone = "dry_run" if args.dry_run else str(config["model"].get("backbone", model_name))

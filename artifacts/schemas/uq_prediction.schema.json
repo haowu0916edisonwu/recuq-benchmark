@@ -10,7 +10,13 @@
     "schema_version": {"const": "uq_prediction_v1"},
     "record_id": {"type": "string", "minLength": 1},
     "method": {"type": "string", "minLength": 1},
-    "method_family": {"enum": ["probability", "probability_derived", "calibration", "decomposition", "sensitivity", "sampling", "diagnostic"]},
+    "method_family": {
+      "enum": [
+        "probability", "probability_derived", "calibration", "calibration_derived",
+        "decomposition", "decomposition_derived", "sensitivity", "sampling",
+        "sampling_derived", "same_inference_listwise", "sanity", "diagnostic"
+      ]
+    },
     "uncertainty_score": {"type": "number"},
     "confidence_score": {"type": ["number", "null"]},
     "source_scores": {

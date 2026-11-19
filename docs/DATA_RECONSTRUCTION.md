@@ -53,6 +53,7 @@ After reconstruction, verify:
 - 1,000 Warm-start base instances per dataset;
 - 20 candidates and one positive per record;
 - MIND candidates originate from the official impression;
-- source-independent candidate order is identical to the manifest;
+- the selected instances follow the manifest order and the candidates follow
+  the dataset's configured construction and seed;
 - dataset/instance keys match the release manifest before inference;
 - no source text is copied into the public Git repository.

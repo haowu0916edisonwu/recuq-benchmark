@@ -72,11 +72,16 @@ def inspect_base(path: Path, expected: int) -> dict[str, Any]:
         if is_eligible:
             eligible_scenarios[scenario] += 1
         forbidden_hits.update(FORBIDDEN_BASE_FIELDS.intersection(row))
-        if len(row.get("labels", [])) != 20 or len(row.get("ranking", [])) != 20:
-            raise AssertionError(f"Expected 20 labels/ranks for {record_id}")
-        if sorted(int(value) for value in row["ranking"]) != list(range(20)):
+        labels = row.get("labels", [])
+        ranking = row.get("ranking", [])
+        if len(labels) != 20 or any(type(label) is not int or label not in (0, 1) for label in labels) or sum(labels) != 1:
+            raise AssertionError(f"Expected 20 binary labels with one positive for {record_id}")
+        if any(type(index) is not int for index in ranking) or sorted(ranking) != list(range(20)):
             raise AssertionError(f"Ranking is not a permutation for {record_id}")
-        if bool(row.get("is_error_at_10")) != bool(row.get("error_at_10")):
+        if row.get("candidate_ids") != list("ABCDEFGHIJKLMNOPQRST"):
+            raise AssertionError(f"Expected local candidate labels A–T for {record_id}")
+        is_error = not any(labels[index] for index in ranking[:10])
+        if row.get("is_error_at_10") is not is_error or row.get("error_at_10") != int(is_error):
             raise AssertionError(f"Inconsistent Error@10 labels for {record_id}")
         serialized = payload.decode("utf-8", errors="ignore").lower()
         if "/nvme/" in serialized or "/home/" in serialized or "@gmail" in serialized:
@@ -95,24 +100,34 @@ def inspect_base(path: Path, expected: int) -> dict[str, Any]:
     }
 
 
-def inspect_uq(path: Path, expected_ids: set[str], manifest_hash: str) -> dict[str, Any]:
+def uq_identity(row: dict[str, Any], path: Path, families: set[str]) -> tuple[str, str]:
+    record_id = row.get("record_id")
+    method = row.get("method")
+    family = row.get("method_family")
+    if row.get("schema_version") != "uq_prediction_v1" or not isinstance(method, str) or not method:
+        raise AssertionError(f"Invalid UQ method or schema version in {path}:{record_id}")
+    if not isinstance(family, str) or family not in families:
+        raise AssertionError(f"Undeclared UQ method family {family!r} in {path}:{record_id}")
+    score = row.get("uncertainty_score")
+    if type(score) not in (int, float) or not math.isfinite(score):
+        raise AssertionError(f"Non-finite uncertainty score in {path}:{record_id}")
+    return method, family
+
+
+def inspect_uq(path: Path, expected_ids: set[str], manifest_hash: str, families: set[str]) -> dict[str, Any]:
     ids: set[str] = set()
     digest = hashlib.sha256()
-    method: str | None = None
-    family: str | None = None
+    identities = set()
     for row, payload in iter_gzip_jsonl(path):
         digest.update(payload)
         record_id = row.get("record_id")
         if record_id in ids:
             raise AssertionError(f"Duplicate UQ record_id in {path}: {record_id}")
         ids.add(record_id)
-        method = method or row.get("method")
-        family = family or row.get("method_family")
-        if row.get("schema_version") != "uq_prediction_v1":
-            raise AssertionError(f"Invalid UQ schema version in {path}")
-        score = row.get("uncertainty_score")
-        if isinstance(score, bool) or not isinstance(score, (int, float)) or not math.isfinite(float(score)):
-            raise AssertionError(f"Non-finite uncertainty score in {path}:{record_id}")
+        identities.add(uq_identity(row, path, families))
+    if len(identities) != 1:
+        raise AssertionError(f"Expected one UQ method per file: {path}")
+    (method, family), = identities
     if ids != expected_ids:
         raise AssertionError(
             f"Join mismatch for {path}: missing={len(expected_ids - ids)} extra={len(ids - expected_ids)}"
@@ -188,6 +203,11 @@ def check_paper_values(root: Path) -> dict[str, Any]:
         overall = next(row for row in csv_rows(tables / filename) if row["dataset"] == "overall")
         close(overall["labelprob_top10mass"], expected)
 
+    tail = csv_rows(tables / "table6_tail_target_subset_auroc.csv")
+    assert {row["dataset"]: int(row["n"]) for row in tail} == {
+        "mind_20": 870, "amazon_books": 221, "amazon_movies": 129, "yelp": 92, "overall": 1312,
+    }
+
     paired = csv_rows(tables / "table8_paired_control_response.csv")
     perturb = next(row for row in paired if row["method"] == "Perturbation Rank Instability")
     close(perturb["directional_coverage"], 0.9873556899395272)
@@ -214,7 +234,7 @@ def check_paper_values(root: Path) -> dict[str, Any]:
     return {"status": "passed", "tables_checked": [1, 3, 5, 6, 7, 8, 11, 15]}
 
 
-def validate_supplement(artifacts: Path) -> dict[str, Any]:
+def validate_supplement(artifacts: Path, families: set[str]) -> dict[str, Any]:
     manifest = json.loads((artifacts / "manifests/supplement_build_manifest.json").read_text())
     for entry in manifest["files"]:
         path = artifacts / entry["path"]
@@ -225,8 +245,8 @@ def validate_supplement(artifacts: Path) -> dict[str, Any]:
             digest.update(payload)
             record_ids.add(row["record_id"])
             count += 1
-            if "uncertainty_score" in row and not math.isfinite(row["uncertainty_score"]):
-                raise AssertionError(f"Non-finite score in {path}")
+            if "uncertainty_score" in row:
+                uq_identity(row, path, families)
         if count != len(record_ids) or count != entry["rows"] or digest.hexdigest() != entry["jsonl_sha256"]:
             raise AssertionError(f"Supplemental file failed manifest validation: {path}")
     controls = inspect_base(artifacts / "supplement/qwen_controlled_rankings.jsonl.gz", 41_163)
@@ -243,7 +263,9 @@ def main() -> None:
 
     llama_rel = "base_predictions/llama_fixed_rankings.jsonl.gz"
     qwen_rel = "base_predictions/qwen_warm_start_fixed_rankings.jsonl.gz"
-    supplement = validate_supplement(artifacts)
+    schema = json.loads((artifacts / "schemas/uq_prediction.schema.json").read_text())
+    families = set(schema["properties"]["method_family"]["enum"])
+    supplement = validate_supplement(artifacts, families)
     llama = inspect_base(artifacts / llama_rel, EXPECTED_LLAMA)
     qwen = inspect_base(artifacts / qwen_rel, EXPECTED_QWEN)
     if llama["eligible_rows"] != EXPECTED_ELIGIBLE:
@@ -264,7 +286,7 @@ def main() -> None:
             relative = str(path.relative_to(artifacts))
             uq_reports.append({
                 "path": relative,
-                **inspect_uq(path, base_info["record_ids"], manifest_by_path[relative]["jsonl_sha256"]),
+                **inspect_uq(path, base_info["record_ids"], manifest_by_path[relative]["jsonl_sha256"], families),
             })
     report = {
         "status": "passed",

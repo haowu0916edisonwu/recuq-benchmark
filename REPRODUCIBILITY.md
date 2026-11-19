@@ -187,14 +187,15 @@ teacher-forced diagnostic configuration.
 
 ### 1. Prepare datasets
 
-- MIND: place the authorized MINDlarge train/dev archives under
-  `data/raw/mind/MINDlarge/`, then run `scripts/prepare_dataset.py` and
-  `scripts/build_mind_20.py`.
-- Amazon: run `scripts/download_prepare_amazon_2023.py --dataset all` if the
-  provider terms and network environment permit, then prepare the sequential
-  instances.
-- Yelp: place the authorized Yelp Open Dataset JSON files under
-  `data/raw/yelp/`, then run `scripts/prepare_dataset.py`.
+Extract the MINDlarge train and development archives into their matching
+directories under `data/raw/mind/MINDlarge/`. Put the Yelp review and business
+JSON files under `data/raw/yelp/`. Then run from the repository root.
+
+```bash
+python scripts/download_prepare_amazon_2023.py --dataset all
+python scripts/prepare_dataset.py --dataset all
+python scripts/build_mind_20.py
+```
 
 Dataset column names, thresholds, item fields, and candidate sampling policies
 are recorded under `configs/dataset/`.
@@ -214,7 +215,9 @@ python scripts/generate_fixed_rankings.py \
 ```
 
 The experiment expands the 4,000 base instances into the four evaluation
-conditions and their variants.  The ranking parser deterministically repairs
+conditions and their variants. S4 generation keeps tail, mid, and head buckets
+to recover all 45,163 ranking records. The scalar evaluator selects the 1,312
+tail targets from those S4 rankings. The ranking parser deterministically repairs
 malformed/partial label lists; parser diagnostics are retained.
 
 ### 4. Generate the Qwen Warm-start replication
@@ -239,6 +242,23 @@ The canonical stage order is:
 4. `run_uq_kweon_decomp.py` with five candidate-order variants;
 5. `derive_perturbation_rank_instability.py` from paired fixed rankings;
 6. `run_uq_self_consistency.py` with five stochastic rankings.
+
+Set the sampling arguments explicitly to reproduce the paper protocol.
+
+```bash
+python scripts/run_uq_self_consistency.py \
+  --config configs/experiment/llama_controlled_suite.yaml \
+  --base_predictions results/llama_controlled_suite_n1000/raw_predictions.jsonl \
+  --subset_manifest configs/eval_subsets/aligned20_n1000_seed42.jsonl \
+  --num_samples 5 --temperature 0.9 --top_p 0.95 --top_k 10 \
+  --sampling_mode sequential --seed 42
+```
+
+For Qwen, use `configs/experiment/tmlr_qwen3_nonthinking_warmstart.yaml` and
+`results/qwen3_8b_nonthinking/warm_start/raw_predictions.jsonl`. Set
+`--method self_consistency_qwen3_s5` and
+`--output_dir results/uq/qwen3_8b_nonthinking/self_consistency_s5_t09_p095`
+for Qwen's output.
 
 `run_uq_listwise_same_inference.py` computes the teacher-forced probabilities
 from locally regenerated rankings and reconstructed inputs. Use the same
