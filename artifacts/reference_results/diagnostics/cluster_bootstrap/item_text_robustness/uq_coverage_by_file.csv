@@ -1,0 +1,9 @@
+uq_path,methods,input_rows,joined_rows,unmatched_record_ids,schema_errors
+artifacts/uq_outputs/llama/labelprob_max.jsonl.gz,labelprob_llama31_8b,45163,45163,0,0
+artifacts/uq_outputs/llama/labelprob_top10mass.jsonl.gz,derived_labelprob_base_top10_mass,45163,45163,0,0
+artifacts/uq_outputs/llama/labelprob_entropy.jsonl.gz,labelprob_entropy,45163,45163,0,0
+artifacts/uq_outputs/llama/labelprob_margin.jsonl.gz,labelprob_margin,45163,45163,0,0
+artifacts/uq_outputs/llama/temperature_scaled_labelprob.jsonl.gz,labelprob_temp_scaled,45163,45163,0,0
+artifacts/uq_outputs/llama/decomposed_llm_uq.jsonl.gz,kweon_decomp_llama31_8b,45163,45163,0,0
+artifacts/uq_outputs/llama/perturbation_rank_instability.jsonl.gz,perturbation_rank_instability,45163,45163,0,0
+artifacts/uq_outputs/llama/self_consistency.jsonl.gz,self_consistency_s5,45163,45163,0,0

@@ -1,0 +1,8 @@
+method,extra_calls_per_record,call_type,requires_labels,llama_seconds,llama_records,qwen_seconds,qwen_records,llama_wallclock,llama_seconds_per_record,qwen_wallclock,qwen_seconds_per_record
+Base listwise ranking (reference),1 (the issued ranking),greedy generation,no,88373,45163,9378,4000,24h32m,1.957,2h36m,2.345
+LabelProb-Max / Entropy / Margin / Top10Mass,1 (shared),single forward pass,no,28962,45163,5313,4000,8h02m,0.641,1h28m,1.328
+Temperature-scaled LabelProb,0 (reuses LabelProb),offline 1-D fit,yes (calibration labels),,,,,,,,
+Decomposed LLM UQ,5,forward passes (candidate-order permutations),no,79890,45163,12403,4000,22h11m,1.769,3h26m,3.101
+Self-consistency,5,sampled generations,no,438788,45163,48330,4000,121h53m,9.716,13h25m,12.082
+Perturbation Rank Instability,"7.29 on average (mind_20 7, amazon_books 8, amazon_movies 5-7, yelp 8)",greedy generations under controlled inputs,no,,,63806,41163,,,17h43m,1.55
+Same-inference listwise scores,1,teacher-forced forward pass,no,5696,4000,2142,4000,1h34m,1.424,0h35m,0.535

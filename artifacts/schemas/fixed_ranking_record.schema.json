@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "fixed_ranking_record.schema.json",
+  "title": "Fixed LLM ranking record",
+  "type": "object",
+  "required": [
+    "schema_version", "record_id", "instance_id", "backbone", "dataset",
+    "scenario", "evaluation_condition", "variant_name", "candidate_ids",
+    "labels", "ranking", "metrics", "is_error_at_10", "parse_success"
+  ],
+  "properties": {
+    "schema_version": {"const": "fixed_ranking_record_v1"},
+    "record_id": {"type": "string", "minLength": 1},
+    "instance_id": {"type": "string", "minLength": 1},
+    "backbone": {"enum": ["llama3.1_8b_instruct", "qwen3_8b_nonthinking"]},
+    "dataset": {"enum": ["mind_20", "amazon_books", "amazon_movies", "yelp"]},
+    "scenario": {"enum": ["s0_warmstart", "s3_sparsity", "s4_longtail", "s5_robustness"]},
+    "evaluation_condition": {
+      "enum": ["warm_start", "sparse_history", "tail_target_subset", "item_text_robustness"]
+    },
+    "variant_name": {"type": "string"},
+    "candidate_ids": {
+      "type": "array", "minItems": 20, "maxItems": 20,
+      "items": {"type": "string"}, "uniqueItems": true
+    },
+    "labels": {
+      "type": "array", "minItems": 20, "maxItems": 20,
+      "items": {"enum": [0, 1]}
+    },
+    "ranking": {
+      "type": "array", "minItems": 20, "maxItems": 20,
+      "items": {"type": "integer", "minimum": 0, "maximum": 19},
+      "uniqueItems": true
+    },
+    "metrics": {"type": "object"},
+    "is_error_at_10": {"type": "boolean"},
+    "error_at_10": {"enum": [0, 1]},
+    "eval_k": {"const": 10},
+    "parse_success": {"type": "boolean"},
+    "popularity_bucket": {"type": "string"},
+    "model_metadata": {"type": "object"},
+    "metadata": {"type": "object"}
+  },
+  "additionalProperties": true
+}

@@ -1,0 +1,11 @@
+release_name: perturbation_rank_instability
+method_family: sensitivity
+monitor_only: true
+rank_distance: top_k_jaccard_disagreement
+top_k: 10
+scalar_score: mean_paired_control_instability
+control_scores:
+  user: full_history_vs_truncated_history
+  item: original_item_text_vs_ablated_item_text
+reported_scope: constructed_user_item_controls_only
+causal_attribution: false

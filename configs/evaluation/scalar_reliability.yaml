@@ -1,0 +1,20 @@
+event: error_at_10
+event_definition: target_item_outside_fixed_base_top_10
+primary_metric: error_auroc
+complementary_metrics: [error_auprc, risk_at_80, aurc, eaurc]
+score_orientation: larger_means_more_uncertain
+tail_target_eligibility:
+  scenario: s4_longtail
+  retained_popularity_bucket: tail
+warm_start_bootstrap:
+  resamples: 1000
+  strata: dataset
+  unit: record
+  paired_across_methods: true
+  seed: 42
+controlled_condition_bootstrap:
+  resamples: 200
+  strata: dataset
+  unit: instance_id
+  paired_across_methods: true
+  seed: 42

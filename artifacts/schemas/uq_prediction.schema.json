@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "uq_prediction.schema.json",
+  "title": "Record-aligned UQ prediction",
+  "type": "object",
+  "required": [
+    "schema_version", "record_id", "method", "method_family", "uncertainty_score"
+  ],
+  "properties": {
+    "schema_version": {"const": "uq_prediction_v1"},
+    "record_id": {"type": "string", "minLength": 1},
+    "method": {"type": "string", "minLength": 1},
+    "method_family": {"enum": ["probability", "probability_derived", "calibration", "decomposition", "sensitivity", "sampling", "diagnostic"]},
+    "uncertainty_score": {"type": "number"},
+    "confidence_score": {"type": ["number", "null"]},
+    "source_scores": {
+      "type": "object",
+      "properties": {
+        "user": {"type": ["number", "null"]},
+        "item": {"type": ["number", "null"]},
+        "candidate": {"type": ["number", "null"]},
+        "prompt": {"type": ["number", "null"]},
+        "model": {"type": ["number", "null"]}
+      },
+      "additionalProperties": false
+    },
+    "components": {"type": "object"},
+    "metadata": {"type": "object"}
+  },
+  "additionalProperties": false
+}

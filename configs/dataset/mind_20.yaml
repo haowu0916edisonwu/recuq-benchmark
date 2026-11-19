@@ -1,0 +1,21 @@
+name: "mind_20"
+source_dataset: "mind"
+raw_path: "data/raw/mind/MINDlarge"
+processed_path: "data/processed/mind_20.pkl"
+source_processed_path: "data/processed/mind.pkl"
+candidate_policy: "1 positive + 19 official impression negatives"
+max_history: 50
+min_history_for_instance: 10
+max_instances_per_split: 100000
+candidate_sampling:
+  num_negatives: 19
+  strategy: "official_impression_negatives"
+  seed: 42
+item_text_fields:
+  - title
+  - abstract
+  - category
+s5_ablate_fields:
+  - title
+  - abstract
+  - category

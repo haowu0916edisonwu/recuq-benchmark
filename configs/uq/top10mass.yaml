@@ -1,0 +1,8 @@
+release_name: labelprob_top10mass
+method_family: probability_derived
+monitor_only: true
+derived_from: labelprob_max
+top_k: 10
+uncertainty_score: one_minus_probability_mass_on_fixed_base_top_k
+uses_ground_truth: false
+changes_base_ranking: false

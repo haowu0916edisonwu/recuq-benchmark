@@ -1,0 +1,30 @@
+# Licensed/raw data and model outputs
+/data/
+/cache/
+/results/
+
+# Local environments and caches
+.venv/
+.env
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.DS_Store
+
+# Regenerated outputs (reference results under artifacts/ are committed)
+/outputs/*
+!outputs/.gitkeep
+
+# Model/provider caches
+.cache/
+huggingface/
+wandb/
+
+# Credentials and scheduler logs
+*.key
+*.pem
+*.token
+slurm-*.out
+*.log

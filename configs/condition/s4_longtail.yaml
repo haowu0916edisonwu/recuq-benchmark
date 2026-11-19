@@ -1,0 +1,6 @@
+name: "s4_longtail"
+target_source: "U_item"
+tail_percentile: 25
+head_percentile: 75
+
+include_buckets: ["tail"]

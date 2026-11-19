@@ -1,0 +1,4 @@
+uq_path,methods,input_rows,joined_rows,unmatched_record_ids,schema_errors
+outputs/sanity_checks/sanity_random_score/uq_predictions.jsonl,sanity_random_score,45163,45163,0,0
+outputs/sanity_checks/sanity_parse_failure/uq_predictions.jsonl,sanity_parse_failure,45163,45163,0,0
+outputs/sanity_checks/sanity_oracle_error/uq_predictions.jsonl,sanity_oracle_error,45163,45163,0,0

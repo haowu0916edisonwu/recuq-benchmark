@@ -1,0 +1,16 @@
+controls: [user_history, item_content]
+restoration_metric: ndcg_at_10
+restoration_effect: restored_minus_ablated_or_truncated
+negative_effect_handling: clip_to_zero
+operational_label: control_with_larger_positive_restoration_gain
+tie_handling: exclude_label_ties
+prediction_tie_handling: count_as_no_direction
+metrics:
+  - directional_coverage
+  - dominant_control_accuracy
+  - macro_f1
+  - source_auroc
+  - spearman_rho_with_restoration_effects
+effect_gap_thresholds: [0.0, 0.05, 0.10]
+scope_statement: constructed_user_item_controls_only
+causal_attribution: false

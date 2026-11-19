@@ -1,0 +1,69 @@
+{
+  "files": [
+    {
+      "jsonl_sha256": "303ca8816a7e85553592ddf514666fb1d56996cb76bdb5bc7a29c99319fb60cf",
+      "path": "supplement/qwen_controlled_rankings.jsonl.gz",
+      "rows": 41163
+    },
+    {
+      "jsonl_sha256": "0e4023c906ee8418400bb309d07dc427d45679aa61704de58e32951126c67930",
+      "path": "supplement/same_prompt/llama/alignment_probe_own_top10_mass.jsonl.gz",
+      "rows": 45163
+    },
+    {
+      "jsonl_sha256": "263e6763048bd736918723891db901f1d47c98d4a086af280ec9b76f6c7b3273",
+      "path": "supplement/same_prompt/llama/same_inference_slot1_top10mass.jsonl.gz",
+      "rows": 4000
+    },
+    {
+      "jsonl_sha256": "82824ee91aef5c5bfde5135fa1d2faa188852394fcb8053fe039c29285b5cf90",
+      "path": "supplement/same_prompt/llama/same_inference_slot1_max.jsonl.gz",
+      "rows": 4000
+    },
+    {
+      "jsonl_sha256": "8d063155310968076883bcb2d14d2707fbb74767ddacf62bf973c39f71668b15",
+      "path": "supplement/same_prompt/llama/same_inference_seq_nll_top10.jsonl.gz",
+      "rows": 4000
+    },
+    {
+      "jsonl_sha256": "b8d337b352523aaa890e595470e338a980d2cc5014b6426ffad2dda4ae468cbf",
+      "path": "supplement/self_consistency/llama/self_consistency_base_anchored.jsonl.gz",
+      "rows": 45163
+    },
+    {
+      "jsonl_sha256": "0640d0430a3fa69a49610c8ed76c1893796a98c11e0806ff2b0a4d03cc962069",
+      "path": "supplement/self_consistency/llama/self_consistency_plus_base.jsonl.gz",
+      "rows": 45163
+    },
+    {
+      "jsonl_sha256": "16459217fc3b6792dff70fcf06f5f0de2c73badd0f8998ebd742147aaf006288",
+      "path": "supplement/same_prompt/qwen/alignment_probe_own_top10_mass.jsonl.gz",
+      "rows": 4000
+    },
+    {
+      "jsonl_sha256": "20349e47a4e8591205497b38ac4b4e958f8257c3ac0383745dc6f09922399f00",
+      "path": "supplement/same_prompt/qwen/same_inference_slot1_top10mass.jsonl.gz",
+      "rows": 4000
+    },
+    {
+      "jsonl_sha256": "783d307b98d7d17a9687d75fe2a480438c9ec6c08ce18196b105337a8c73d868",
+      "path": "supplement/same_prompt/qwen/same_inference_slot1_max.jsonl.gz",
+      "rows": 4000
+    },
+    {
+      "jsonl_sha256": "41c816a1e541fc83731036e5b5b1371e5fc4c48ffe439b26ef824361a20b24ff",
+      "path": "supplement/same_prompt/qwen/same_inference_seq_nll_top10.jsonl.gz",
+      "rows": 4000
+    },
+    {
+      "jsonl_sha256": "eed34114545dfdf0380dbd59e7bb8dc348a7d67ae00161a2cd4c5b31ef4a3f6c",
+      "path": "supplement/self_consistency/qwen/self_consistency_base_anchored.jsonl.gz",
+      "rows": 4000
+    },
+    {
+      "jsonl_sha256": "f0253b636ae431b24d77b29a659ca1684ed5144766a012a3da84f22989119fc0",
+      "path": "supplement/self_consistency/qwen/self_consistency_plus_base.jsonl.gz",
+      "rows": 4000
+    }
+  ]
+}

@@ -1,0 +1,9 @@
+backbone,method,warm,sparse,long_tail,robust,warm_n,sparse_n,long_tail_n,robust_n
+qwen3_8b_nonthinking,derived_labelprob_base_top10_mass,0.4466592445298071,,,,4000,,,
+qwen3_8b_nonthinking,kweon_decomp_qwen3_8b_nonthinking,0.558855957529661,,,,4000,,,
+qwen3_8b_nonthinking,labelprob_entropy,0.4417212898801936,,,,4000,,,
+qwen3_8b_nonthinking,labelprob_margin,0.4316295519456736,,,,4000,,,
+qwen3_8b_nonthinking,labelprob_qwen3_8b_nonthinking,0.4359894518463978,,,,4000,,,
+qwen3_8b_nonthinking,labelprob_temp_scaled,0.5382642372220433,,,,4000,,,
+qwen3_8b_nonthinking,perturbation_rank_instability,0.43742099851153593,,,,4000,,,
+qwen3_8b_nonthinking,self_consistency_qwen3_s5,0.38092381652843676,,,,4000,,,

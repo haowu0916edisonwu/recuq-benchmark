@@ -1,0 +1,30 @@
+name: "amazon_movies"
+review_repo: "McAuley-Lab/Amazon-Reviews-2023"
+meta_repo: "McAuley-Lab/Amazon-Reviews-2023"
+amazon_category: "Movies_and_TV"
+raw_path: "data/raw/amazon/movies"
+processed_path: "data/processed/amazon_movies.pkl"
+review_file: "reviews.parquet"
+meta_file: "meta.parquet"
+user_id_col: "user_id"
+item_id_col: "parent_asin"
+rating_col: "rating"
+timestamp_col: "timestamp"
+positive_threshold: 4.0
+min_user_interactions: 12
+min_history_for_instance: 10
+max_history: 50
+max_instances_per_split: 100000
+candidate_sampling:
+  num_negatives: 19
+  strategy: "same_category_then_global"
+  exclude_user_history: true
+  seed: 42
+item_text_fields:
+  - title
+  - categories
+  - description
+s5_ablate_fields:
+  - title
+  - description
+  - categories

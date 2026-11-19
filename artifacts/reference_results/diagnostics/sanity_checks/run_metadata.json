@@ -1,0 +1,25 @@
+{
+  "base_predictions": "artifacts/base_predictions/llama_fixed_rankings.jsonl.gz",
+  "base_records": 45163,
+  "base_records_after_tail_target_filter": 42475,
+  "bootstrap": null,
+  "joined_records": 135489,
+  "joined_records_after_tail_target_filter": 127425,
+  "label_key": "is_error_at_10",
+  "metric_definitions": {
+    "aurc": "mean selective risk over every retained-prefix coverage from 1/n through 1",
+    "eaurc": "aurc minus oracle_aurc; lower is better",
+    "error_auprc": "average_precision_score(is_error_at_10, uncertainty_score)",
+    "oracle_aurc": "minimum AURC obtainable for the observed number of errors",
+    "risk_at_c": "error rate after retaining the lowest-uncertainty floor(c*n) records"
+  },
+  "output_dir": "artifacts/reference_results/diagnostics/sanity_checks",
+  "tail_target_included_buckets": [
+    "tail"
+  ],
+  "uq_predictions": [
+    "outputs/sanity_checks/sanity_random_score/uq_predictions.jsonl",
+    "outputs/sanity_checks/sanity_parse_failure/uq_predictions.jsonl",
+    "outputs/sanity_checks/sanity_oracle_error/uq_predictions.jsonl"
+  ]
+}

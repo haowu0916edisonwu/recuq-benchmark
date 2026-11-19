@@ -1,0 +1,11 @@
+release_name: temperature_scaled_labelprob
+method_family: calibration
+monitor_only: true
+folds: 5
+split_unit: instance_id
+objective: negative_log_positive_option_probability_mass
+score_after_scaling: one_minus_maximum_option_probability
+fit_scope: cross_fitted
+observed_temperature_ranges:
+  llama3.1_8b_instruct: [1.199, 1.245]
+  qwen3_8b_nonthinking: [8.563, 8.717]

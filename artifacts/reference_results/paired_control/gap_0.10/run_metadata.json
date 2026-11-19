@@ -1,0 +1,23 @@
+{
+  "base_predictions": "artifacts/base_predictions/llama_fixed_rankings.jsonl.gz",
+  "controls": [
+    "user",
+    "item"
+  ],
+  "intervention_definition": "Matched restoration uses the restoration delta for the method-predicted control; mismatched restoration uses the other control restoration delta.",
+  "method_count": 8,
+  "operational_label_definition": "Operational dominant control is whichever restoration has the larger clipped NDCG@10 loss reduction: S3 full history vs truncated history for the user-history control, and S5 original item text vs ablated item text for the item-content control. This is a constructed diagnostic label, not a causal source.",
+  "output_dir": "artifacts/reference_results/paired_control/gap_0.10",
+  "response_prediction_definition": "If a UQ method provides finite source_scores.user and source_scores.item, those source scores are used directly. Otherwise, predicted control-response scores are scalar uncertainty increases under S3 history truncation and S5 item-field ablation relative to their corresponding restored controls.",
+  "source_case_count": 1124,
+  "uq_predictions": [
+    "artifacts/uq_outputs/llama/labelprob_max.jsonl.gz",
+    "artifacts/uq_outputs/llama/labelprob_top10mass.jsonl.gz",
+    "artifacts/uq_outputs/llama/labelprob_entropy.jsonl.gz",
+    "artifacts/uq_outputs/llama/labelprob_margin.jsonl.gz",
+    "artifacts/uq_outputs/llama/temperature_scaled_labelprob.jsonl.gz",
+    "artifacts/uq_outputs/llama/decomposed_llm_uq.jsonl.gz",
+    "artifacts/uq_outputs/llama/perturbation_rank_instability.jsonl.gz",
+    "artifacts/uq_outputs/llama/self_consistency.jsonl.gz"
+  ]
+}

@@ -1,0 +1,9 @@
+methods:
+  - release_name: labelprob_entropy
+    method_family: probability
+    uncertainty_score: normalized_entropy_over_20_option_labels
+  - release_name: labelprob_margin
+    method_family: probability
+    uncertainty_score: one_minus_top_two_probability_margin
+derived_from: labelprob_max
+monitor_only: true

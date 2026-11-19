@@ -1,0 +1,31 @@
+name: "yelp"
+raw_path: "data/raw/yelp"
+processed_path: "data/processed/yelp.pkl"
+review_file: "yelp_academic_dataset_review.json"
+business_file: "yelp_academic_dataset_business.json"
+user_id_col: "user_id"
+item_id_col: "business_id"
+rating_col: "stars"
+timestamp_col: "date"
+positive_threshold: 4.0
+min_user_interactions: 12
+min_history_for_instance: 10
+max_history: 50
+max_instances_per_split: 100000
+review_summary_max_reviews: 3
+review_summary_max_chars_per_review: 240
+candidate_sampling:
+  num_negatives: 19
+  strategy: "same_category_then_global"
+  exclude_user_history: true
+  seed: 42
+item_text_fields:
+  - name
+  - categories
+  - location
+  - train_review_summary
+s5_ablate_fields:
+  - name
+  - categories
+  - location
+  - train_review_summary

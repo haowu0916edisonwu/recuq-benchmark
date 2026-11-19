@@ -1,0 +1,8 @@
+release_name: labelprob_max
+method_family: probability
+monitor_only: true
+input: one_letter_choice_prompt
+valid_option_labels: [A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T]
+token_policy: maximum_logit_across_single_token_bare_and_space_prefixed_forms
+normalization: softmax_over_valid_option_labels_only
+uncertainty_score: one_minus_maximum_option_probability

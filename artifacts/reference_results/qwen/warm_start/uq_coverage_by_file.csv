@@ -1,0 +1,9 @@
+uq_path,methods,input_rows,joined_rows,unmatched_record_ids,schema_errors
+artifacts/uq_outputs/qwen/labelprob_max.jsonl.gz,labelprob_qwen3_8b_nonthinking,4000,4000,0,0
+artifacts/uq_outputs/qwen/labelprob_top10mass.jsonl.gz,derived_labelprob_base_top10_mass,4000,4000,0,0
+artifacts/uq_outputs/qwen/labelprob_entropy.jsonl.gz,labelprob_entropy,4000,4000,0,0
+artifacts/uq_outputs/qwen/labelprob_margin.jsonl.gz,labelprob_margin,4000,4000,0,0
+artifacts/uq_outputs/qwen/temperature_scaled_labelprob.jsonl.gz,labelprob_temp_scaled,4000,4000,0,0
+artifacts/uq_outputs/qwen/decomposed_llm_uq.jsonl.gz,kweon_decomp_qwen3_8b_nonthinking,4000,4000,0,0
+artifacts/uq_outputs/qwen/perturbation_rank_instability.jsonl.gz,perturbation_rank_instability,4000,4000,0,0
+artifacts/uq_outputs/qwen/self_consistency.jsonl.gz,self_consistency_qwen3_s5,4000,4000,0,0

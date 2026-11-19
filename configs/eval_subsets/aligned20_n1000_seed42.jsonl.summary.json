@@ -1,0 +1,29 @@
+{
+  "schema_version": "eval_subset_manifest_v1",
+  "config": "configs/experiment/llama_controlled_suite.yaml",
+  "subset_size": 1000,
+  "seed": 42,
+  "sampling_policy": "uniform_random_without_replacement_per_dataset",
+  "datasets": {
+    "mind_20": {
+      "source_test_size": 57550,
+      "sample_size": 1000,
+      "processed_path": "data/processed/mind_20.pkl"
+    },
+    "amazon_books": {
+      "source_test_size": 100000,
+      "sample_size": 1000,
+      "processed_path": "data/processed/amazon_books.pkl"
+    },
+    "amazon_movies": {
+      "source_test_size": 100000,
+      "sample_size": 1000,
+      "processed_path": "data/processed/amazon_movies.pkl"
+    },
+    "yelp": {
+      "source_test_size": 57218,
+      "sample_size": 1000,
+      "processed_path": "data/processed/yelp.pkl"
+    }
+  }
+}

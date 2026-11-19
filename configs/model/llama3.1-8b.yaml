@@ -1,0 +1,11 @@
+backbone: "llama3.1-8b-instruct"
+model_name: "meta-llama/Meta-Llama-3.1-8B-Instruct"
+device: "cuda"
+torch_dtype: "bfloat16"
+load_in_8bit: false
+batch_size: 4
+max_new_tokens: 128
+temperature: 0.0
+do_sample: false
+seed: 42
+score_mode: "rank"

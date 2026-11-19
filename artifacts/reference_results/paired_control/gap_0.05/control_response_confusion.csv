@@ -1,0 +1,17 @@
+method,dominant_control,n,pred_user,pred_item,pred_tie
+derived_labelprob_base_top10_mass,user,757,234,286,237
+derived_labelprob_base_top10_mass,item,765,135,365,265
+kweon_decomp_llama31_8b,user,757,90,275,392
+kweon_decomp_llama31_8b,item,765,43,318,404
+labelprob_entropy,user,757,62,282,413
+labelprob_entropy,item,765,43,321,401
+labelprob_llama31_8b,user,757,97,245,415
+labelprob_llama31_8b,item,765,67,312,386
+labelprob_margin,user,757,135,228,394
+labelprob_margin,item,765,113,283,369
+labelprob_temp_scaled,user,757,93,245,419
+labelprob_temp_scaled,item,765,61,318,386
+perturbation_rank_instability,user,757,616,134,7
+perturbation_rank_instability,item,765,246,508,11
+self_consistency_s5,user,757,147,309,301
+self_consistency_s5,item,765,151,330,284

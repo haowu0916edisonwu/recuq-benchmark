@@ -1,0 +1,94 @@
+{
+  "files": [
+    {
+      "jsonl_sha256": "59d37799503f29a3d881663dc57127d1025dca077d3af89e01389780de053982",
+      "path": "base_predictions/llama_fixed_rankings.jsonl.gz",
+      "rows": 45163
+    },
+    {
+      "jsonl_sha256": "c94a41910b22aaa76fc930621c4b5c049f448063f6b52d84eab7d44e7364e0f2",
+      "path": "base_predictions/qwen_warm_start_fixed_rankings.jsonl.gz",
+      "rows": 4000
+    },
+    {
+      "jsonl_sha256": "bf449053c957c059ec954481e92f37107c821e2113014402db4127983087ab8f",
+      "path": "uq_outputs/llama/labelprob_max.jsonl.gz",
+      "rows": 45163
+    },
+    {
+      "jsonl_sha256": "7a23218bcd9ecf55b604904dcd6db5e2640a83a10ad8025b9252cb6b5800f7b3",
+      "path": "uq_outputs/llama/labelprob_top10mass.jsonl.gz",
+      "rows": 45163
+    },
+    {
+      "jsonl_sha256": "a0df286b20801dbea5994bc66eb4e05d9852c3d63ff70e00c7f5993a64566131",
+      "path": "uq_outputs/llama/labelprob_entropy.jsonl.gz",
+      "rows": 45163
+    },
+    {
+      "jsonl_sha256": "16640f1a7a0aeb45d379d0aa69ca6f9e4f9059fafd4a11503107543648e66437",
+      "path": "uq_outputs/llama/labelprob_margin.jsonl.gz",
+      "rows": 45163
+    },
+    {
+      "jsonl_sha256": "e7eea6b0a43aaa998830d1c169e8cdc47d906e8e0f30a3032f481b144aa5b7f1",
+      "path": "uq_outputs/llama/temperature_scaled_labelprob.jsonl.gz",
+      "rows": 45163
+    },
+    {
+      "jsonl_sha256": "f0b0062293ad91f8085a327f4295a3814cb54c34a7cc384355e4b098aaa3c45a",
+      "path": "uq_outputs/llama/decomposed_llm_uq.jsonl.gz",
+      "rows": 45163
+    },
+    {
+      "jsonl_sha256": "3d086da9ab29b32380d756c29ecd1ed5ad83bb1c300dfbc8d2ce5b0cba348b73",
+      "path": "uq_outputs/llama/perturbation_rank_instability.jsonl.gz",
+      "rows": 45163
+    },
+    {
+      "jsonl_sha256": "4e7c6d168b66b1753088c9c8a25ebcd9556e2813bb8c5e4a5ff0af3d94d4137e",
+      "path": "uq_outputs/llama/self_consistency.jsonl.gz",
+      "rows": 45163
+    },
+    {
+      "jsonl_sha256": "21dd8bba03d1abc31e2df7e1a259b03a1107b8b87d46203bd0352f8435ab91af",
+      "path": "uq_outputs/qwen/labelprob_max.jsonl.gz",
+      "rows": 4000
+    },
+    {
+      "jsonl_sha256": "f93720913b7cb636fa931f329542bffc9205a9f1f992a267b9305c253f2253d6",
+      "path": "uq_outputs/qwen/labelprob_top10mass.jsonl.gz",
+      "rows": 4000
+    },
+    {
+      "jsonl_sha256": "54598860af00245cdda36a853a34baa36d39b55c1668b2da3b134295af837342",
+      "path": "uq_outputs/qwen/labelprob_entropy.jsonl.gz",
+      "rows": 4000
+    },
+    {
+      "jsonl_sha256": "dad5a8c880fbbee5784b723932d134c584c91e6dc6dd925b82029dc46e28527b",
+      "path": "uq_outputs/qwen/labelprob_margin.jsonl.gz",
+      "rows": 4000
+    },
+    {
+      "jsonl_sha256": "9358cc2759759a0fcc455284f1e06d6ff3fd9012fdfd3d84488ae6ca2b84f58a",
+      "path": "uq_outputs/qwen/temperature_scaled_labelprob.jsonl.gz",
+      "rows": 4000
+    },
+    {
+      "jsonl_sha256": "de5a1ed12616e831cb578766f69ee943ec3c31f9379acf01adbd2f8458bcb77f",
+      "path": "uq_outputs/qwen/decomposed_llm_uq.jsonl.gz",
+      "rows": 4000
+    },
+    {
+      "jsonl_sha256": "ec475026eee276090c34dcb0f7d87fe7ddb7d0e28277eb0aa6cc1aa9d05f097b",
+      "path": "uq_outputs/qwen/perturbation_rank_instability.jsonl.gz",
+      "rows": 4000
+    },
+    {
+      "jsonl_sha256": "903d264279f84679391214e84b2c9363d856ba575b054f92402e74c84658c5f7",
+      "path": "uq_outputs/qwen/self_consistency.jsonl.gz",
+      "rows": 4000
+    }
+  ]
+}

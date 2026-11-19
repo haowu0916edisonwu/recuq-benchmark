@@ -1,0 +1,14 @@
+backbone: "qwen3-8b-nonthinking"
+model_name: "Qwen/Qwen3-8B"
+revision: "b968826d9c46dd6066d109eabc6255188de91218"
+chat_template_kwargs:
+  enable_thinking: false
+device: "cuda"
+torch_dtype: "bfloat16"
+load_in_8bit: false
+batch_size: 4
+max_new_tokens: 128
+temperature: 0.0
+do_sample: false
+seed: 42
+score_mode: "rank"

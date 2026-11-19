@@ -1,0 +1,5 @@
+dataset,base_instances,generated_records,evaluation_eligible_records
+mind_20,1000,11000,10870
+amazon_books,1000,12000,11221
+amazon_movies,1000,10163,9292
+yelp,1000,12000,11092

@@ -1,0 +1,20 @@
+experiment:
+  name: "llama_controlled_suite_n1000"
+  model: "../model/llama3.1-8b.yaml"
+  datasets:
+    - "../dataset/mind_20.yaml"
+    - "../dataset/amazon_books.yaml"
+    - "../dataset/amazon_movies.yaml"
+    - "../dataset/yelp.yaml"
+  scenarios:
+    - "../condition/s0_warmstart.yaml"
+    - "../condition/s3_sparsity.yaml"
+    - "../condition/s4_longtail.yaml"
+    - "../condition/s5_robustness.yaml"
+  subset_manifest: "../eval_subsets/aligned20_n1000_seed42.jsonl"
+  evaluation:
+    subset_size: 1000
+    k: 10
+    seed: 42
+  cache_dir: "cache/llama_controlled_suite_n1000"
+  results_dir: "results/llama_controlled_suite_n1000"

@@ -1,0 +1,31 @@
+cff-version: 1.2.0
+message: "If you use this benchmark, please cite the accompanying paper."
+title: RecUQ Benchmark
+type: software
+license: MIT
+authors:
+  - {given-names: Hao, family-names: Wu}
+  - {given-names: Sipeng, family-names: Chen}
+  - {given-names: Weikai, family-names: Li}
+  - {given-names: Tianyi, family-names: Chen}
+  - {given-names: Qiancheng, family-names: Yang}
+  - {given-names: Hang, family-names: Zhou}
+  - {given-names: Yizhou, family-names: Sun}
+  - {given-names: Wei, family-names: Wang}
+  - {given-names: Xiao, family-names: Luo}
+preferred-citation:
+  type: article
+  title: Towards Realistic Evaluation of Uncertainty Quantification for LLM-Based Recommender Systems
+  authors:
+    - {given-names: Hao, family-names: Wu}
+    - {given-names: Sipeng, family-names: Chen}
+    - {given-names: Weikai, family-names: Li}
+    - {given-names: Tianyi, family-names: Chen}
+    - {given-names: Qiancheng, family-names: Yang}
+    - {given-names: Hang, family-names: Zhou}
+    - {given-names: Yizhou, family-names: Sun}
+    - {given-names: Wei, family-names: Wang}
+    - {given-names: Xiao, family-names: Luo}
+  journal: Transactions on Machine Learning Research
+  year: 2026
+  url: https://openreview.net/forum?id=GXDe6REdu3

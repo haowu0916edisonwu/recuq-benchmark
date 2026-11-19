@@ -1,0 +1,9 @@
+method,source_cases,scored_cases,missing_cases,coverage_rate
+derived_labelprob_base_top10_mass,1124,1124,0,1.0
+kweon_decomp_llama31_8b,1124,1124,0,1.0
+labelprob_entropy,1124,1124,0,1.0
+labelprob_llama31_8b,1124,1124,0,1.0
+labelprob_margin,1124,1124,0,1.0
+labelprob_temp_scaled,1124,1124,0,1.0
+perturbation_rank_instability,1124,1124,0,1.0
+self_consistency_s5,1124,1124,0,1.0

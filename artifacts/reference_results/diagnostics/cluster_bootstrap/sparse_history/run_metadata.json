@@ -1,0 +1,46 @@
+{
+  "base_predictions": "artifacts/base_predictions/llama_fixed_rankings.jsonl.gz",
+  "base_records": 45163,
+  "base_records_after_tail_target_filter": 42475,
+  "bootstrap": {
+    "metrics": [
+      "error_auroc",
+      "error_auprc",
+      "risk_at_80",
+      "aurc",
+      "eaurc"
+    ],
+    "paired_across_methods": true,
+    "resamples": 200,
+    "scenario": "s3_sparsity",
+    "seed": 42,
+    "strata": [
+      "dataset"
+    ],
+    "unit": "instance"
+  },
+  "joined_records": 361304,
+  "joined_records_after_tail_target_filter": 339800,
+  "label_key": "is_error_at_10",
+  "metric_definitions": {
+    "aurc": "mean selective risk over every retained-prefix coverage from 1/n through 1",
+    "eaurc": "aurc minus oracle_aurc; lower is better",
+    "error_auprc": "average_precision_score(is_error_at_10, uncertainty_score)",
+    "oracle_aurc": "minimum AURC obtainable for the observed number of errors",
+    "risk_at_c": "error rate after retaining the lowest-uncertainty floor(c*n) records"
+  },
+  "output_dir": "artifacts/reference_results/diagnostics/cluster_bootstrap/sparse_history",
+  "tail_target_included_buckets": [
+    "tail"
+  ],
+  "uq_predictions": [
+    "artifacts/uq_outputs/llama/labelprob_max.jsonl.gz",
+    "artifacts/uq_outputs/llama/labelprob_top10mass.jsonl.gz",
+    "artifacts/uq_outputs/llama/labelprob_entropy.jsonl.gz",
+    "artifacts/uq_outputs/llama/labelprob_margin.jsonl.gz",
+    "artifacts/uq_outputs/llama/temperature_scaled_labelprob.jsonl.gz",
+    "artifacts/uq_outputs/llama/decomposed_llm_uq.jsonl.gz",
+    "artifacts/uq_outputs/llama/perturbation_rank_instability.jsonl.gz",
+    "artifacts/uq_outputs/llama/self_consistency.jsonl.gz"
+  ]
+}

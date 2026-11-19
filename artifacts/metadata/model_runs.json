@@ -1,0 +1,35 @@
+{
+  "llama3.1_8b_instruct": {
+    "model_id": "meta-llama/Meta-Llama-3.1-8B-Instruct",
+    "revision": null,
+    "revision_note": "The canonical run metadata retained the model ID but not the resolved snapshot hash; fixed outputs are released for exact evaluation reproduction.",
+    "torch_dtype": "bfloat16",
+    "do_sample": false,
+    "temperature": 0.0,
+    "max_new_tokens": 128,
+    "seed": 42,
+    "reported_scope": "all four Llama evaluation conditions"
+  },
+  "qwen3_8b_nonthinking": {
+    "model_id": "Qwen/Qwen3-8B",
+    "revision": "b968826d9c46dd6066d109eabc6255188de91218",
+    "enable_thinking": false,
+    "torch_dtype": "bfloat16",
+    "do_sample": false,
+    "temperature": 0.0,
+    "max_new_tokens": 128,
+    "seed": 42,
+    "reported_scope": "shared 4,000-record Warm-start replication"
+  },
+  "self_consistency": {
+    "samples_per_record": 5,
+    "temperature": 0.9,
+    "top_p": 0.95,
+    "top_k_for_disagreement": 10,
+    "llama_rows": 45163,
+    "llama_wall_time": "121:53:08",
+    "llama_mean_parse_success": 0.995,
+    "qwen_rows": 4000,
+    "qwen_wall_time": "13:25:30"
+  }
+}

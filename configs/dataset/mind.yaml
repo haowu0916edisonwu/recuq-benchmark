@@ -1,0 +1,18 @@
+name: "mind"
+raw_path: "data/raw/mind/MINDlarge"
+processed_path: "data/processed/mind.pkl"
+train_news_file: "MINDlarge_train/news.tsv"
+dev_news_file: "MINDlarge_dev/news.tsv"
+train_behaviors_file: "MINDlarge_train/behaviors.tsv"
+dev_behaviors_file: "MINDlarge_dev/behaviors.tsv"
+max_history: 50
+min_history_for_instance: 10
+max_instances_per_split: 100000
+item_text_fields:
+  - title
+  - abstract
+  - category
+s5_ablate_fields:
+  - title
+  - abstract
+  - category

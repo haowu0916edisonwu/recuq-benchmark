@@ -1,0 +1,9 @@
+release_name,artifact_method,method_family,extra_model_calls,main_score,paired_control_input
+labelprob_max,labelprob_llama31_8b / labelprob_qwen3_8b_nonthinking,probability,1,one minus maximum option-label probability,scalar response
+labelprob_top10mass,derived_labelprob_base_top10_mass,probability_derived,0,one minus probability mass on fixed base top-10,scalar response
+labelprob_entropy,labelprob_entropy,probability,0,normalized option-label entropy,scalar response
+labelprob_margin,labelprob_margin,probability,0,one minus top-two probability margin,scalar response
+temperature_scaled_labelprob,labelprob_temp_scaled,calibration,0,cross-fitted scaled one minus max probability,scalar response
+decomposed_llm_uq,kweon_decomp_*,decomposition,5,entropy of mean aligned distribution,scalar response
+perturbation_rank_instability,perturbation_rank_instability,sensitivity,paired controls,mean top-10 Jaccard instability,separate control scores
+self_consistency,self_consistency_*,sampling,5,mean pairwise top-10 Jaccard disagreement,scalar response

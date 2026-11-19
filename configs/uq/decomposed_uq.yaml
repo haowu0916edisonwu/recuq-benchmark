@@ -1,0 +1,9 @@
+release_name: decomposed_llm_uq
+method_family: decomposition
+monitor_only: true
+candidate_order_variants: 5
+alignment_space: original_candidate_ids
+total_uncertainty: normalized_entropy_of_mean_aligned_distribution
+recommendation_uncertainty: mean_normalized_entropy_across_variants
+prompt_uncertainty: total_minus_recommendation
+main_scalar_score: total_uncertainty

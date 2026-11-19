@@ -1,0 +1,8 @@
+release_name: self_consistency
+method_family: sampling
+monitor_only: true
+additional_rankings: 5
+temperature: 0.9
+top_p: 0.95
+top_k: 10
+uncertainty_score: mean_pairwise_top_k_jaccard_disagreement

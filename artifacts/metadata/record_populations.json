@@ -1,0 +1,28 @@
+{
+  "llama": {
+    "generated_records": 45163,
+    "evaluation_eligible_records": 42475,
+    "eligible_by_condition": {
+      "warm_start": 4000,
+      "sparse_history": 20000,
+      "tail_target_subset": 1312,
+      "item_text_robustness": 17163
+    },
+    "tail_target_by_dataset": {
+      "mind_20": 870,
+      "amazon_books": 221,
+      "amazon_movies": 129,
+      "yelp": 92
+    }
+  },
+  "qwen": {
+    "generated_records": 4000,
+    "reported_condition": "warm_start",
+    "shared_base_instances": 4000
+  },
+  "paired_control": {
+    "non_tied_operational_labels_gap_0.00": 1819,
+    "non_tied_operational_labels_gap_0.05": 1522,
+    "non_tied_operational_labels_gap_0.10": 1124
+  }
+}
