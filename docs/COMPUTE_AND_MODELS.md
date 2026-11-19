@@ -41,9 +41,10 @@ reported paired-control and evidence-removal diagnostics.
 ## Ranking-prompt diagnostic
 
 The cached same-prompt scores use teacher-forced reconstructions of stored
-rankings. The manuscript separately records a Llama greedy regeneration
-check using Transformers 5.7.0. See Tables 19 and 21 for inference settings and
-logged costs.
+rankings. The Llama diagnostic used Transformers 5.7.0, incremental KV-cache scoring,
+and snapshot `0e9e39f249a16976918f6564b8830bc894c89659`. The Qwen diagnostic
+used Transformers 4.51.3. See the [GPU commands](GPU_REGENERATION.md) and
+Tables 19 and 21 for settings and recorded costs.
 
 ## Recorded wall times
 

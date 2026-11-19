@@ -1,6 +1,4 @@
 name: "amazon_books"
-review_repo: "cogsci13/Amazon-Reviews-2023-Books-Review"
-meta_repo: "cogsci13/Amazon-Reviews-2023-Books-Meta"
 raw_path: "data/raw/amazon/books"
 processed_path: "data/processed/amazon_books.pkl"
 review_file: "reviews.parquet"

@@ -164,24 +164,22 @@ def main() -> None:
     output_dir = Path(args.output_dir or f"results/uq/{method}")
     output_path = output_dir / "uq_predictions.jsonl"
     base_predictions_path = Path(args.base_predictions)
-    output_dir.mkdir(parents=True, exist_ok=True)
-
     if args.overwrite and args.resume:
         raise ValueError("--overwrite and --resume cannot be used together")
-    if output_path.exists() and not args.overwrite and not args.resume:
-        raise FileExistsError(f"{output_path} already exists. Use --resume or --overwrite.")
-    if args.overwrite and output_path.exists():
-        output_path.unlink()
+    if not args.validate_only:
+        output_dir.mkdir(parents=True, exist_ok=True)
+        if output_path.exists() and not args.overwrite and not args.resume:
+            raise FileExistsError(f"{output_path} already exists. Use --resume or --overwrite.")
+        if args.overwrite and output_path.exists():
+            output_path.unlink()
 
     base_by_id = _load_base_predictions(base_predictions_path)
     manifest = _load_subset_manifest(args.subset_manifest)
-    existing_ids = _load_existing_ids(output_path) if args.resume and output_path.exists() else set()
+    existing_ids = _load_existing_ids(output_path) if not args.validate_only and args.resume and output_path.exists() else set()
     estimated_total = min(len(base_by_id), args.limit) if args.limit is not None else len(base_by_id)
     estimated_to_score = max(estimated_total - len(existing_ids), 0)
 
     reconstruction_cache = CacheManager(config.get("cache_dir", "cache/llama_controlled_suite"))
-    sample_cache_dir = _default_sample_cache_dir(args)
-    sample_cache = CacheManager(sample_cache_dir)
 
     logger.info(
         (
@@ -214,10 +212,14 @@ def main() -> None:
             hash_mismatches,
             len(base_by_id),
         )
+        if args.limit is None and visited != len(base_by_id):
+            raise RuntimeError(f"Reconstructed {visited} of {len(base_by_id)} base records.")
         if hash_mismatches:
             raise RuntimeError(f"Encountered {hash_mismatches} hash mismatches.")
         return
 
+    sample_cache_dir = _default_sample_cache_dir(args)
+    sample_cache = CacheManager(sample_cache_dir)
     model_config = dict(config["model"])
     model_config["do_sample"] = True
     model_config["temperature"] = args.temperature

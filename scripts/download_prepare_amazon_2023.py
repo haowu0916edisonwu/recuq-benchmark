@@ -15,16 +15,7 @@ if str(REPO_ROOT) not in sys.path:
 
 HF_REPO_ID = "McAuley-Lab/Amazon-Reviews-2023"
 
-DATASETS = {
-    "movies": {
-        "category": "Movies_and_TV",
-        "output_dir": REPO_ROOT / "data/raw/amazon/movies",
-    },
-    "books": {
-        "category": "Books",
-        "output_dir": REPO_ROOT / "data/raw/amazon/books",
-    },
-}
+DATASETS = {"movies": "Movies_and_TV", "books": "Books"}
 
 REVIEW_COLUMNS = ["user_id", "parent_asin", "rating", "timestamp"]
 META_COLUMNS = [
@@ -51,6 +42,7 @@ def parse_args() -> argparse.Namespace:
     )
     parser.add_argument("--dataset", choices=["movies", "books", "all"], required=True)
     parser.add_argument("--repo_id", type=str, default=HF_REPO_ID)
+    parser.add_argument("--revision", help="Optional Hugging Face dataset revision.")
     parser.add_argument("--output_root", type=str, default=str(REPO_ROOT / "data/raw/amazon"))
     parser.add_argument("--cache_dir", type=str, default=os.environ.get("HF_HUB_CACHE"))
     parser.add_argument("--review_chunksize", type=int, default=1_000_000)
@@ -72,35 +64,33 @@ def main() -> None:
 
 
 def prepare_dataset(name: str, args: argparse.Namespace) -> None:
-    spec = DATASETS[name]
-    category = spec["category"]
-    output_root = Path(args.output_root)
-    output_dir = output_root / ("movies" if name == "movies" else "books")
+    category = DATASETS[name]
+    output_dir = Path(args.output_root) / name
     output_dir.mkdir(parents=True, exist_ok=True)
-
-    review_source = f"benchmark/5core/rating_only/{category}.csv"
-    meta_source = f"raw/meta_categories/meta_{category}.jsonl"
-    reviews_out = output_dir / "reviews.parquet"
-    meta_out = output_dir / "meta.parquet"
+    sources = (
+        (f"benchmark/5core/rating_only/{category}.csv", output_dir / "reviews.parquet",
+         convert_reviews_csv, args.review_chunksize),
+        (f"raw/meta_categories/meta_{category}.jsonl", output_dir / "meta.parquet",
+         convert_meta_jsonl, args.meta_batch_size),
+    )
 
     print(f"\n=== Amazon {category} ===")
     print(f"Output directory: {output_dir}")
-    review_path = download_hf_file(args.repo_id, review_source, args.cache_dir)
-    meta_path = download_hf_file(args.repo_id, meta_source, args.cache_dir)
-
-    if args.copy_source:
-        copy_source_file(review_path, output_dir / Path(review_source).name)
-        copy_source_file(meta_path, output_dir / Path(meta_source).name)
-
-    convert_reviews_csv(review_path, reviews_out, args.review_chunksize, force=args.force)
-    convert_meta_jsonl(meta_path, meta_out, args.meta_batch_size, force=args.force)
+    for source, output, convert, batch_size in sources:
+        if output.is_file() and not args.force and not args.copy_source:
+            print(f"Existing parquet: {output}")
+            continue
+        downloaded = download_hf_file(args.repo_id, source, args.cache_dir, revision=args.revision)
+        if args.copy_source:
+            copy_source_file(downloaded, output_dir / Path(source).name)
+        convert(downloaded, output, batch_size, force=args.force)
 
     print(f"Ready for prepare_dataset.py:")
-    print(f"  {reviews_out}")
-    print(f"  {meta_out}")
+    for _, output, _, _ in sources:
+        print(f"  {output}")
 
 
-def download_hf_file(repo_id: str, filename: str, cache_dir: str | None) -> Path:
+def download_hf_file(repo_id: str, filename: str, cache_dir: str | None, *, revision: str | None = None) -> Path:
     try:
         from huggingface_hub import hf_hub_download
     except ImportError as exc:
@@ -112,6 +102,7 @@ def download_hf_file(repo_id: str, filename: str, cache_dir: str | None) -> Path
         repo_type="dataset",
         filename=filename,
         cache_dir=cache_dir,
+        revision=revision,
     )
     return Path(path)
 
@@ -148,16 +139,17 @@ def convert_reviews_csv(source: Path, output: Path, chunksize: int, force: bool)
     writer: pq.ParquetWriter | None = None
     total_rows = 0
     try:
-        read_kwargs: dict[str, Any] = {"chunksize": chunksize}
-        if header:
-            read_kwargs["usecols"] = header
-        else:
-            read_kwargs["header"] = None
-            read_kwargs["names"] = REVIEW_COLUMNS
-            read_kwargs["usecols"] = REVIEW_COLUMNS
+        source_columns = header or REVIEW_COLUMNS
+        read_kwargs = {
+            "chunksize": chunksize,
+            "usecols": source_columns,
+            "dtype": {column: str for column in source_columns[:2]},
+        }
+        if header is None:
+            read_kwargs.update(header=None, names=source_columns)
 
         for chunk in pd.read_csv(source, **read_kwargs):
-            chunk = normalize_review_chunk(chunk)
+            chunk = normalize_review_chunk(chunk[source_columns])
             table = pa.Table.from_pandas(chunk, preserve_index=False)
             if writer is None:
                 writer = pq.ParquetWriter(tmp_output, table.schema, compression="zstd")

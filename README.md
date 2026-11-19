@@ -32,7 +32,11 @@ The release includes the fixed rankings and UQ scores needed for evaluation. Rep
 | `make paper-tables` | Export machine-readable Tables 1–8 from the frozen reference results to `outputs/paper_tables/`. |
 | `make figures` | Render the data-derived figures and illustrative case study to `outputs/figures/`. |
 
-Use the [paper results map](docs/PAPER_RESULTS_MAP.md) to locate a table or figure, and the [reproducibility guide](REPRODUCIBILITY.md) for individual evaluator commands and GPU regeneration.
+Use the [paper results map](docs/PAPER_RESULTS_MAP.md) to locate a table or
+figure, and the [CPU evaluation guide](REPRODUCIBILITY.md) for individual evaluator
+commands. To rebuild the benchmark inputs or run new inference, follow the
+[data reconstruction guide](docs/DATA_RECONSTRUCTION.md) and the
+[GPU regeneration guide](docs/GPU_REGENERATION.md).
 
 ## Benchmark coverage
 

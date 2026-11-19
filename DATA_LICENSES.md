@@ -6,20 +6,17 @@ trademarks.
 
 ## MIND
 
-Users must obtain MIND from its official distribution and comply with its
-research-use terms.  This repository does not redistribute article text or raw
+Obtain MIND from [Microsoft](https://msnews.github.io/#download) under its research-use terms.  This repository does not redistribute article text or raw
 behavior logs.
 
 ## Amazon Reviews 2023
 
-Users must obtain Amazon review/metadata files from the official dataset
-distribution and comply with the associated terms.  This repository does not
+Obtain ratings and metadata from the [McAuley Lab distribution](https://huggingface.co/datasets/McAuley-Lab/Amazon-Reviews-2023) under its associated terms.  This repository does not
 redistribute raw review or item-description text.
 
 ## Yelp Open Dataset
 
-Users must obtain Yelp data from the official Open Dataset distribution and
-comply with its license/terms.  This repository does not redistribute raw
+Obtain the [Yelp Open Dataset](https://www.yelp.com/dataset) under its dataset agreement.  This repository does not redistribute raw
 business or review text.
 
 ## Model providers

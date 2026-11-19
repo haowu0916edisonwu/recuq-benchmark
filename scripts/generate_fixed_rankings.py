@@ -22,6 +22,7 @@ from recuq_benchmark.metrics.ranking import compute_ranking_metrics
 from recuq_benchmark.models.base import DryRunRecommender, RankingOutput
 from recuq_benchmark.models.llama_instruct import CausalLMInstructRecommender
 from recuq_benchmark.scenarios import SCENARIO_REGISTRY
+from recuq_benchmark.scenarios.base import Variant
 from recuq_benchmark.utils.cache import CacheManager
 from recuq_benchmark.utils.config import load_config
 from recuq_benchmark.utils.logging import get_logger
@@ -169,7 +170,8 @@ def main() -> None:
                     dataset_config=dataset_config,
                 )
                 for variant in variants:
-                    prompt_hash = cache.prompt_hash(variant.history_text, variant.candidate_texts)
+                    input_hashes = record_input_hashes(variant)
+                    prompt_hash = input_hashes["prompt_hash"]
                     key = cache.build_key(
                         model_name=model_name,
                         dataset=variant.dataset,
@@ -208,17 +210,9 @@ def main() -> None:
                         "instance_id": variant.instance_id,
                         "user_id": variant.user_id,
                         "candidate_ids": variant.candidate_ids,
-                        "candidate_hash": _stable_hash(
-                            {
-                                "candidate_ids": variant.candidate_ids,
-                                "labels": variant.labels,
-                                "ground_truth_item_ids": variant.ground_truth_item_ids,
-                            }
-                        ),
                         "labels": variant.labels,
                         "ground_truth_item_ids": variant.ground_truth_item_ids,
-                        "history_hash": _stable_hash(variant.history_text),
-                        "prompt_hash": prompt_hash,
+                        **input_hashes,
                         "eval_k": eval_k,
                         f"is_error_at_{eval_k}": bool(metrics.get(f"error@{eval_k}", 0.0) >= 1.0),
                         f"error_at_{eval_k}": float(metrics.get(f"error@{eval_k}", 0.0)),
@@ -501,6 +495,18 @@ def _challenge_name(scenario: str) -> str:
         "s5_robustness": "robust",
     }
     return mapping.get(scenario, scenario)
+
+
+def record_input_hashes(variant: Variant) -> dict[str, str]:
+    return {
+        "candidate_hash": _stable_hash({
+            "candidate_ids": variant.candidate_ids,
+            "labels": variant.labels,
+            "ground_truth_item_ids": variant.ground_truth_item_ids,
+        }),
+        "history_hash": _stable_hash(variant.history_text),
+        "prompt_hash": CacheManager.prompt_hash(variant.history_text, variant.candidate_texts),
+    }
 
 
 def _stable_hash(payload: Any) -> str:

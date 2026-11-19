@@ -35,7 +35,8 @@ class CacheManager:
     ) -> str:
         return "::".join([model_name, dataset, scenario, instance_id, variant_name, prompt_hash])
 
-    def prompt_hash(self, history_text: list[str], candidate_texts: list[str]) -> str:
+    @staticmethod
+    def prompt_hash(history_text: list[str], candidate_texts: list[str]) -> str:
         payload = "\n<History>\n".join(history_text) + "\n<Candidates>\n" + "\n".join(candidate_texts)
         return hashlib.sha256(payload.encode("utf-8")).hexdigest()[:16]
 

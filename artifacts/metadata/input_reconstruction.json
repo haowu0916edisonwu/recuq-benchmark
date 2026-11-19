@@ -1,0 +1,126 @@
+{
+  "datasets": {
+    "amazon_books": {
+      "scenarios": {
+        "s0_warmstart": {
+          "candidate_hash_sha256": "26d5dde2238164bee060d578559efb1a27dc2d71fbc5c2fa53dccb84dbe9357f",
+          "history_hash_sha256": "16e3b77570a80233017ee566117a2f539878e9b1b0bde314aee313f5cda3fc90",
+          "prompt_hash_sha256": "9cda809eef24280ccf8ed0507434dbe045b0b6417906fba82e5c787a1e954e1f",
+          "rows": 1000
+        },
+        "s3_sparsity": {
+          "candidate_hash_sha256": "cf73d968efa6ac226ad69808f44a49b9c827cdbeddd7ccbef4e21a632c2cbbcb",
+          "history_hash_sha256": "9e9a4ea2b45af13d1ecbd9c8133ef4f600ee9acaac1a05250f940f9a399dadd2",
+          "prompt_hash_sha256": "78787e41ffc11126842a39f24724aeae85c46a0e65c8930e9aeb46af9ca5fc2b",
+          "rows": 5000
+        },
+        "s4_longtail": {
+          "candidate_hash_sha256": "7bdd4f9b705d4cdd1675ee81a06b97c9db18cc9dadead4d3d739b334e4c0cb2c",
+          "history_hash_sha256": "c5d96b16c270da79ca8cda1b1cfbf87ff214bacb48963a8a61213ad6b7a0d32e",
+          "prompt_hash_sha256": "9a45818ccf5ff1282634baa9f110547c7a0168dc0d578d017814ad5564b926c2",
+          "rows": 1000
+        },
+        "s5_robustness": {
+          "candidate_hash_sha256": "7165e2218bbb4a3efce0c45ed7d57b39badbd24552b8af27847af5f3700ec318",
+          "history_hash_sha256": "27a81a6029cebb2b423d81f77424edbd9a3adcbf3d89aa6dd9fce9e73a30a496",
+          "prompt_hash_sha256": "a5efb4852dae554011646a40072607513f25127c7348e547d8b5b6bcb73639bf",
+          "rows": 5000
+        }
+      },
+      "selected_instances": 1000,
+      "test_pool": 100000
+    },
+    "amazon_movies": {
+      "scenarios": {
+        "s0_warmstart": {
+          "candidate_hash_sha256": "aac46ae9cf3288b1e307a11c9a59e1689280e9435d461063f06d2e6ff727ac36",
+          "history_hash_sha256": "aaee1f1916600be50c9786410174309dd98a54e6787fe2c16347cbba00c75f66",
+          "prompt_hash_sha256": "a2b13acf86567e6357130ea6d7393a90c98cd214273803b0a9a2a8c545c256bc",
+          "rows": 1000
+        },
+        "s3_sparsity": {
+          "candidate_hash_sha256": "1f9008606434529ea7324325f82d163e602649daa09b6e1c4ebe62b2140ddc14",
+          "history_hash_sha256": "7cd744854e70a8b54b19420c2195c8f79bde658d2dff6518dff373bce1864a71",
+          "prompt_hash_sha256": "73d7dc3948922122608771577d1c972b316b9c4b401c5b3edcc3f9309761d091",
+          "rows": 5000
+        },
+        "s4_longtail": {
+          "candidate_hash_sha256": "3b4fbe40fedfe442d258c2fefbf8017b3a7fcafda702366269b09340c831a485",
+          "history_hash_sha256": "639a32df41cc73686b84b1bde463cabfd7c8cf5701097e6e8848eeb66752b5f0",
+          "prompt_hash_sha256": "83e4953128eb248975f85bdbddb214d8a09a89ecb6f200d9507ba463b8d6d8f6",
+          "rows": 1000
+        },
+        "s5_robustness": {
+          "candidate_hash_sha256": "7a27470d69fb191a30f15d03f48f33217a57611599a22918a375e75c6fa4d99c",
+          "history_hash_sha256": "77d28e702b8f69e20d896f8d45cfbde2b6351bf5865a622e634e6d40472551a6",
+          "prompt_hash_sha256": "388350c01e9c7df5258e183e6e513c1facb77cfbbeb76dd1e39ccf1ae8f194c5",
+          "rows": 3163
+        }
+      },
+      "selected_instances": 1000,
+      "test_pool": 100000
+    },
+    "mind_20": {
+      "scenarios": {
+        "s0_warmstart": {
+          "candidate_hash_sha256": "fe555c73a1ce52c61dad310ffde18f14f272da1d0bf4257de7e9ac9adddd334d",
+          "history_hash_sha256": "7384ea0d2abddaeb4f30fa5914153eafa12f70f2294059749a33a67881660eb1",
+          "prompt_hash_sha256": "a997b157efe1963db70a8a5f0863516089e09a7fa729cdc29c4105148af984e4",
+          "rows": 1000
+        },
+        "s3_sparsity": {
+          "candidate_hash_sha256": "37117882d2b165ff01ff575bbe1b1d14601582bbd772997e51403eceee99f807",
+          "history_hash_sha256": "c05366e20d5335a318b288ae45a7b21a36131d5fb6da3d792926f1a7f9445a8a",
+          "prompt_hash_sha256": "2fe4a1be607b2ff31b3956541d5c12174ec426554754f9ef899684176f7b31ec",
+          "rows": 5000
+        },
+        "s4_longtail": {
+          "candidate_hash_sha256": "244a657c08e96f03cabf47ed2ac4e353dae46117fd60a46557bb14f6808880af",
+          "history_hash_sha256": "dd83d956e473dfe9583fe90d16b6c88925e7a874d968779dd2c582133e1d21b3",
+          "prompt_hash_sha256": "ee090d7943b988f8e1760aa8edf28508c8f8af286ed861d3d5019b41e9987efe",
+          "rows": 1000
+        },
+        "s5_robustness": {
+          "candidate_hash_sha256": "d5de21db58f6d2098f636d742c3737b93f2a49840cdbc8a2cde5fabda1541b14",
+          "history_hash_sha256": "45b743a4e0fb6fa64e3df716315606a8d88dc31655298980fc69a532e928a7ed",
+          "prompt_hash_sha256": "1d938e6e42b36f55cbb0fea4dbd26f8c379095942ee8f21e536346d0c954c85f",
+          "rows": 4000
+        }
+      },
+      "selected_instances": 1000,
+      "test_pool": 57550
+    },
+    "yelp": {
+      "scenarios": {
+        "s0_warmstart": {
+          "candidate_hash_sha256": "6d282cee8c1fd5edcdb2e33b4db94e890c6371a9015fadbf7367abf0d63f4c7c",
+          "history_hash_sha256": "badd97998772fbedbb9188d7d9451e73f0b267f3796ea4c806908e4c64e0f16e",
+          "prompt_hash_sha256": "373ec22ce72c29721967bff2f0ce3f820d4254eb9f3561c72030b5469efe2464",
+          "rows": 1000
+        },
+        "s3_sparsity": {
+          "candidate_hash_sha256": "e337176673a55ab7970c5f84bffd5d0752d7f4bb958e48d96d6d4ed353341ebd",
+          "history_hash_sha256": "0bf4de2d29d15c2bf531f9a778150af7c1908d64db69680ca5ef8b554ac22428",
+          "prompt_hash_sha256": "49a594f9893c166da50a8f37641d3558e5993e3612d71e0733b0b9eed3e2a8f4",
+          "rows": 5000
+        },
+        "s4_longtail": {
+          "candidate_hash_sha256": "8453f6cec27786d95ed14e2c0ebd0d0a693dbfc923cb1aedc7285d2cc3a0a333",
+          "history_hash_sha256": "6163ead8130176f214386162090a11adea31bf296ac9f55d5eecf54eb754ca3d",
+          "prompt_hash_sha256": "c672f79269c4445c3bdb9155fd2cc821a3f979d22dba66cb01090d89e12c2f7d",
+          "rows": 1000
+        },
+        "s5_robustness": {
+          "candidate_hash_sha256": "8add2ced453a635f8293513fdaaaedb692aea41859f8e0f58295538dd404a74e",
+          "history_hash_sha256": "5f7380451f33377c19ccb826ad5ffdd239a8f0a99249fc7fb3a35e9d41a80544",
+          "prompt_hash_sha256": "082dd80e6040f9a1a04bc592ec8a6222e31775122f69a878d5aea6078b1bd7cb",
+          "rows": 5000
+        }
+      },
+      "selected_instances": 1000,
+      "test_pool": 57218
+    }
+  },
+  "fingerprint_format": "SHA-256 of compact JSON Lines [record_id, input_hash] sorted by record_id",
+  "schema_version": "reconstruction_inputs_v1"
+}

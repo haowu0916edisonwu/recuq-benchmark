@@ -1,7 +1,4 @@
 name: "amazon_movies"
-review_repo: "McAuley-Lab/Amazon-Reviews-2023"
-meta_repo: "McAuley-Lab/Amazon-Reviews-2023"
-amazon_category: "Movies_and_TV"
 raw_path: "data/raw/amazon/movies"
 processed_path: "data/processed/amazon_movies.pkl"
 review_file: "reviews.parquet"

@@ -36,7 +36,7 @@ def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Prepare datasets for the fixed-ranking UQ benchmark.")
     parser.add_argument("--dataset", choices=["mind", "amazon_books", "amazon_movies", "yelp", "all"], required=True)
     parser.add_argument("--config", type=str, default=None, help="Optional single dataset config path.")
-    parser.add_argument("--output_dir", type=str, default="data/processed")
+    parser.add_argument("--output_dir", type=Path, help="Override the processed bundle directory.")
     parser.add_argument("--dry_run", action="store_true", help="Write synthetic bundles instead of reading raw data.")
     return parser.parse_args()
 
@@ -48,16 +48,20 @@ def main() -> None:
     for dataset_name in dataset_names:
         config_path = Path(args.config) if args.config and args.dataset != "all" else DATASET_CONFIGS[dataset_name]
         config = load_config(config_path)
-        output_path = Path(args.output_dir) / f"{dataset_name}.pkl"
         if args.dry_run:
+            output_path = (args.output_dir or Path("outputs/dry_run/data")) / f"{dataset_name}.pkl"
             bundle = build_toy_bundle(dataset_name)
             DatasetLoader.save_processed(DatasetLoader, bundle, output_path)
             logger.info("Wrote dry-run bundle for %s to %s", dataset_name, output_path)
             continue
         loader_cls = LOADER_REGISTRY[dataset_name]
         loader = loader_cls()
+        output_path = (
+            args.output_dir / f"{dataset_name}.pkl" if args.output_dir
+            else Path(config.get("processed_path", f"data/processed/{dataset_name}.pkl"))
+        )
         bundle = loader.load(config)
-        loader.save_processed(bundle, config.get("processed_path", output_path))
+        loader.save_processed(bundle, output_path)
         logger.info("Prepared %s: %s", dataset_name, bundle.dataset_stats)
 
 

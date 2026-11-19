@@ -103,20 +103,21 @@ def main() -> None:
     config = load_config(args.config)["experiment"]
     base_predictions_path = Path(args.base_predictions)
     output_dir = Path(args.output_dir)
-    output_dir.mkdir(parents=True, exist_ok=True)
     output_path = output_dir / "uq_predictions.jsonl"
 
     if args.overwrite and args.resume:
         raise ValueError("--overwrite and --resume cannot be used together")
-    if output_path.exists() and not args.overwrite and not args.resume:
-        raise FileExistsError(
-            f"{output_path} already exists. Use --resume or --overwrite."
-        )
-    if args.overwrite and output_path.exists():
-        output_path.unlink()
+    if not args.validate_only:
+        output_dir.mkdir(parents=True, exist_ok=True)
+        if output_path.exists() and not args.overwrite and not args.resume:
+            raise FileExistsError(
+                f"{output_path} already exists. Use --resume or --overwrite."
+            )
+        if args.overwrite and output_path.exists():
+            output_path.unlink()
 
     base_by_id = _load_base_predictions(base_predictions_path)
-    existing_ids = _load_existing_ids(output_path) if args.resume and output_path.exists() else set()
+    existing_ids = _load_existing_ids(output_path) if not args.validate_only and args.resume and output_path.exists() else set()
     manifest = _load_subset_manifest(args.subset_manifest)
     batch_size = int(args.batch_size or config["model"].get("batch_size", 1))
     progress_interval = max(1, int(args.progress_interval))
@@ -147,6 +148,8 @@ def main() -> None:
             hash_mismatches,
             len(base_by_id),
         )
+        if args.limit is None and visited != len(base_by_id):
+            raise RuntimeError(f"Reconstructed {visited} of {len(base_by_id)} base records.")
         if hash_mismatches:
             raise RuntimeError(f"Encountered {hash_mismatches} hash mismatches.")
         return

@@ -98,7 +98,8 @@ def main() -> None:
     if args.revision:
         model_config["revision"] = args.revision
     output_dir = Path(args.output_dir)
-    output_dir.mkdir(parents=True, exist_ok=True)
+    if not args.validate_only:
+        output_dir.mkdir(parents=True, exist_ok=True)
     output_path = output_dir / "uq_predictions.jsonl"
 
     if args.overwrite and args.resume:
@@ -145,6 +146,8 @@ def main() -> None:
             mismatches,
             _quantiles(prompt_chars),
         )
+        if args.limit is None and visited != estimated_total:
+            raise RuntimeError(f"Reconstructed {visited} of {estimated_total} base records in the requested scenarios.")
         if mismatches:
             raise RuntimeError(f"{mismatches} reconstructed prompts do not match the base run.")
         return
