@@ -73,7 +73,8 @@ REPRESENTATIVE = [
     "perturbation_rank_instability",
 ]
 
-VIEW_ORDER = ["s0_warmstart", "s3_sparsity", "s4_longtail", "s5_robustness"]
+WARM_START = "s0_warmstart"
+VIEW_ORDER = [WARM_START, "s3_sparsity", "s4_longtail", "s5_robustness"]
 VIEW_LABELS = ["Warm-start", "Sparse-history", "Tail-target subset", "Item-text"]
 VIEW_COUNTS = ["n=4,000", "n=20,000", "n=1,312", "n=17,163"]
 
@@ -187,8 +188,12 @@ def draw_protocol(output_dir: Path) -> None:
     save_all(fig, output_dir, "fig_benchmark_protocol")
 
 
-def scores_by_method(rows: list[dict[str, str]]) -> dict[str, float]:
-    return {row["method"]: float(row["error_auroc"]) for row in rows if row.get("auroc_defined", "True") == "True"}
+def auroc_by_scenario(directory: Path) -> dict[tuple[str, str], float]:
+    return {
+        (row["scenario"], row["method"]): float(row["error_auroc"])
+        for row in read_csv(directory / "table11_error_auroc_by_method_scenario.csv")
+        if row.get("auroc_defined", "True") == "True"
+    }
 
 
 def bootstrap_lookup(directory: Path) -> dict[tuple[str, str], tuple[float, float]]:
@@ -201,13 +206,8 @@ def bootstrap_lookup(directory: Path) -> dict[tuple[str, str], tuple[float, floa
 
 
 def draw_reliability(args: argparse.Namespace) -> None:
-    llama_dir = args.llama_eval_dir
-    qwen_dir = args.qwen_eval_dir
-    llama = scores_by_method(read_csv(llama_dir / "table11_error_auroc_by_method_scenario.csv"))
-    qwen = scores_by_method(read_csv(qwen_dir / "table11_error_auroc_by_method.csv"))
-
-    scenario_rows = read_csv(llama_dir / "table11_error_auroc_by_method_scenario.csv")
-    by_view = {(row["scenario"], row["method"]): float(row["error_auroc"]) for row in scenario_rows}
+    llama = auroc_by_scenario(args.llama_eval_dir)
+    qwen = auroc_by_scenario(args.qwen_eval_dir)
     ci: dict[tuple[str, str], tuple[float, float]] = {}
     for scenario, directory in args.cluster_bootstrap_dir.items():
         ci.update(bootstrap_lookup(directory))
@@ -219,11 +219,12 @@ def draw_reliability(args: argparse.Namespace) -> None:
     y = np.arange(len(ordered))
     ax_backbone.axhline(2.5, color="#D7E0E7", linewidth=0.75, zorder=-1)
     for i, method in enumerate(ordered):
-        qwen_method = QWEN_METHODS.get(method, method)
+        llama_score = llama[(WARM_START, method)]
+        qwen_score = qwen[(WARM_START, QWEN_METHODS.get(method, method))]
         color = method_color(method)
-        ax_backbone.plot([llama[method], qwen[qwen_method]], [i, i], color="#D6D3D1", linewidth=1.0, zorder=1)
-        ax_backbone.scatter(llama[method], i, s=28, color=color, edgecolor="white", linewidth=0.45, zorder=3, marker="o")
-        ax_backbone.scatter(qwen[qwen_method], i, s=28, color=color, edgecolor="white", linewidth=0.45, zorder=3, marker="D")
+        ax_backbone.plot([llama_score, qwen_score], [i, i], color="#D6D3D1", linewidth=1.0, zorder=1)
+        ax_backbone.scatter(llama_score, i, s=28, color=color, edgecolor="white", linewidth=0.45, zorder=3, marker="o")
+        ax_backbone.scatter(qwen_score, i, s=28, color=color, edgecolor="white", linewidth=0.45, zorder=3, marker="D")
     ax_backbone.axvline(0.5, linestyle="--", linewidth=0.8, color="#9A9693", zorder=0)
     ax_backbone.set_xlim(0.35, 0.67)
     ax_backbone.set_yticks(y)
@@ -242,7 +243,7 @@ def draw_reliability(args: argparse.Namespace) -> None:
     }
     for method in REPRESENTATIVE:
         color, marker = line_styles[method]
-        values = [by_view[(scenario, method)] for scenario in VIEW_ORDER]
+        values = [llama[(scenario, method)] for scenario in VIEW_ORDER]
         ax_view.plot(x, values, color=color, marker=marker, markersize=4.5, linewidth=1.45, label=METHOD_LABELS[method], zorder=3)
         for j, scenario in enumerate(VIEW_ORDER[1:], start=1):
             lower, upper = ci[(scenario, method)]
